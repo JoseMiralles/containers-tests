@@ -2,8 +2,8 @@ from typing import (
     Generic,
     Optional,
     TypeVar,
-    List,
     Tuple)
+from collections import deque
 
 T = TypeVar("T")
 
@@ -12,17 +12,19 @@ class TreeNodeIterator(Generic[T]):
     Handles iterating over tree
     """
     def __init__(self, _tree_node: "TreeNode[T]") -> None:
-        self._root: "TreeNode[T]" = _tree_node
+        self._root: TreeNode[T] = _tree_node
         self._index: int = 0
-        self._qu: "List[TreeNode[T]]" = [self._root]
+        self._qu: deque[TreeNode[T]] = deque()
+        self._qu.append(self._root)
 
     def __next__(self) -> Tuple[T, int]:
         if not self._qu: raise StopIteration
-        _current = self._qu.pop()
+        _current = self._qu.popleft()
         self._index += 1
         if _current.left: self._qu.append(_current.left)
         if _current.right: self._qu.append(_current.right)
         return (_current.value, self._index)
+
 
 class TreeNode(Generic[T]):
 
@@ -39,6 +41,7 @@ class TreeNode(Generic[T]):
     @property
     def value(self) -> T:
         return self._value
+
 
 root: TreeNode[int] = TreeNode(1)
 root.left = TreeNode(2)
