@@ -3,13 +3,10 @@ from typing import Generic, Optional, TypeVar, List
 T = TypeVar("T")
 
 class Node(Generic[T]):
-    
-    _value: T
-    _parent: "Optional[Node[T]]" = None
-    _children: "List[Node[T]]" = []
-
     def __init__(self, _value: T):
-        self._value = _value
+        self._value: T = _value
+        self._parent: "Optional[Node[T]]" = None
+        self._children: "List[Node[T]]" = []
 
     @property
     def value(self) -> T:
@@ -44,14 +41,4 @@ class Node(Generic[T]):
 
     def __repr__(self) -> str:
         return f"<Node object {self._value}>"
-
-
-node1 = Node("root1")
-node2 = Node("root2")
-node3 = Node("root3")
-
-node3.parent = node1
-node3.parent = node2
-
-print(node1.children)
-print(node2.children)
+        
