@@ -1,0 +1,55 @@
+This is a library that allows us to interface with a Postgresql database.
+
+# Setup
+
+## Install package, create and populate database.
+
+1. Install package: `pipenv install psycopg2-binary`
+1. Create `db.sql`
+1. Open psql: `sudo -u postgres psql`
+1. Create user: `CREATE USER psycopg_test_user WITH CREATEDB PASSWORD 'password';`
+    - This shouldnt be done in a real world application!
+1. Create db: `CREATE DATABASE psycopg_test_db WITH OWNER psycopg_test_user;`
+1. Exit psql by pressing `ctrl + z`
+1. Create a sql file `touch db.sql` and then add your create table and insert into commands. Look at the example file below.
+1. Execute: `sudo -u postgres psql -U psycopg_test_user -d psycopg_test_db -f db.sql -h localhost`
+    - This populates the `psycopg_test_db` database, and sets the `psycopg_test_user` as the owner of the new tables.
+
+Example `db.sql`
+```
+CREATE TABLE owners (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL
+);
+
+-- Make and model should have their own tables
+-- Simplified for now
+CREATE TABLE cars (
+  id SERIAL PRIMARY KEY,
+  manu_year INTEGER NOT NULL,
+  make VARCHAR(255),
+  model VARCHAR(255),
+  owner_id INTEGER NOT NULL,
+  FOREIGN KEY (owner_id) REFERENCES owners(id)
+);
+
+INSERT INTO owners (first_name, last_name, email)
+VALUES
+('Tim', 'Petrol', 'rotary@fast.com'),
+('Ryan', 'Runner', '10sec@jdm.com'),
+('Tia', 'Petrol', 'typer@wtec.com');
+
+INSERT INTO cars (manu_year, make, model, owner_id)
+VALUES
+(1993, 'Mazda', 'Rx7', 1),
+(1995, 'Mitsubishi', 'Eclipse', 2),
+(1994, 'Acura', 'Integra', 3);
+```
+
+<br>
+
+## Connect to RDBMS using Psycopg
+
+
