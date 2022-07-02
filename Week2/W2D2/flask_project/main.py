@@ -6,11 +6,16 @@ app = Flask(__name__) # __name__ = file name
 def hello():
     return "<h1>Hello, world!</h1>"
 
-@app.route("/jose")
-def hello_jose():
-    return "<h1>Hello Jose!</h1>"
+# Take in parameters
+@app.route("/item/<int:id>")
+def get_item_by_id(id: int) -> str:
+    _item: str = "Item is aquired here"
+    return _item
 
-@app.route("/test")
-def test():
-    return "test"
+# Method runs before every request
+@app.before_request
+def before_request_function():
+    pass
+    # There is also after_request, and before_first_request.
+
 
