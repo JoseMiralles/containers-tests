@@ -1,0 +1,1 @@
+DATABASE_URL=postgresql://alembic_test:alembic_test@localhost/alembic_test
