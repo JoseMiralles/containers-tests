@@ -10,7 +10,10 @@ export PYENV_ROOT=$HOME/.PYENV
 export PIPENV_PYTHON=PYPENV_ROOT/SHIMS/PYTHON
 export PATH="$PYPENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
 
-eval "(pyenv init -)"
+if command -v pyenv 1>/dev/null 2>&1
+then
+  eval "$(pyenv init -)"
+fi
 ```
 
 ## Create virtual enviroment with pipenv
