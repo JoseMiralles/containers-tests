@@ -9,6 +9,9 @@
 - View logs: `sudo docker container logs <name>`
 - View Networks: `sudo docker network ls`
 
+### Example, opening psql on running postgres container:
+`docker exec -it <container> psql -U postgres`
+
 # Create Containers, examples:
 
 ## Nginx container

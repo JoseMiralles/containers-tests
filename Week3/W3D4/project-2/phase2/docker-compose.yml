@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  
+  vote-app:
+    image: dockersamples/examplevotingapp_vote:before
+    ports:
+      - "80:5000"
+
+  results-app:
+    image: dockersamples/examplevotingapp_result:before
+    ports:
+      - "80:5001"
+
+  worker:
+    image: dockersamples/examplevotingapp_worker
+  
+  db:
+    image: postgres:9.4
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
