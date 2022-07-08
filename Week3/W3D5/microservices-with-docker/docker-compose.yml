@@ -4,10 +4,41 @@ services:
 
   catalog-management:
     build:
-      context: ./backend/catalog-management # The "root directory" for this image.
+      context: ./backend/catalog-management
       target: dev
     ports:
       - 8081:8081
     volumes:
       - ./backend/catalog-management:/app:delegated
       - /app/node_modules
+
+  order-processing-db:
+    image: postgres:12.3
+    environment:
+      - POSTGRES_USER=${BACKEND_ORDER_PROCESSING_DB_USERNAME}
+      - POSTGRES_PASSWORD=${BACKEND_ORDER_PROCESSING_DB_PASSWORD}
+      - POSTGRES_DB=${BACKEND_ORDER_PROCESSING_DB_DATABASE}
+    volumes:
+      - order-processing-db-data:/var/lib/postgresql/data
+
+  order-processing:
+    build:
+      context: ./backend/order-processing
+      target: dev
+    volumes:
+      - ./backend/order-processing:/app:delegated
+      - /app/node_modules
+    environment:
+      - PORT=${BACKEND_ORDER_PROCESSING_PORT}
+      - DB_USERNAME=${BACKEND_ORDER_PROCESSING_DB_USERNAME}
+      - DB_PASSWORD=${BACKEND_ORDER_PROCESSING_DB_PASSWORD}
+      - DB_DATABASE=${BACKEND_ORDER_PROCESSING_DB_DATABASE}
+      - DB_HOST=order-processing-db
+    depends_on:
+      - order-processing-db
+    command: ./wait-for order-processing-db:5432 -- npm run db-migrate-seed
+    # ports:
+    #   - ${BACKEND_ORDER_PROCESSING_PORT}:${BACKEND_ORDER_PROCESSING_PORT}
+
+volumes:
+  order-processing-db-data:
