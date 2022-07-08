@@ -10,7 +10,7 @@ app.use(morgan('dev'));
 app.use(cors());
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the Catalog Management service!' });
+  res.json({ message: 'Welcome to the Catalog Management service! This is Jose!' });
 });
 
 app.get('/products', (req, res) => {
