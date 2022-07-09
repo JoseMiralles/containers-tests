@@ -40,5 +40,36 @@ services:
     # ports:
     #   - ${BACKEND_ORDER_PROCESSING_PORT}:${BACKEND_ORDER_PROCESSING_PORT}
 
+  customer-support:
+    build:
+      context: ./backend/customer-support
+      target: dev
+    ports:
+      - ${BACKEND_CUSTOMER_SUPPORT_PORT}:${BACKEND_CUSTOMER_SUPPORT_PORT}
+    volumes:
+      - ./backend/customer-support:/app:delegated
+      - /app/node_modules
+    environment:
+      - PORT=${BACKEND_CUSTOMER_SUPPORT_PORT}
+      - DB_USERNAME=${BACKEND_CUSTOMER_SUPPORT_DB_USERNAME}
+      - DB_PASSWORD=${BACKEND_CUSTOMER_SUPPORT_DB_PASSWORD}
+      - DB_DATABASE=${BACKEND_CUSTOMER_SUPPORT_DB_DATABASE}
+      - DB_HOST=customer-support-db
+      - ORDER_PROCESSING_BASE_URL=http://order-processing:${BACKEND_ORDER_PROCESSING_PORT}
+    depends_on:
+      - customer-support-db
+    command: ./wait-for customer-support-db:5432 -- npm run db-migrate-seed
+    
+  customer-support-db:
+    image: postgres:12.3
+    environment:
+      - POSTGRES_USER=${BACKEND_CUSTOMER_SUPPORT_DB_USERNAME}
+      - POSTGRES_PASSWORD=${BACKEND_CUSTOMER_SUPPORT_DB_PASSWORD}
+      - POSTGRES_DB=${BACKEND_CUSTOMER_SUPPORT_DB_DATABASE}
+    volumes:
+      - customer-support-db-data:/var/lib/postgresql/data
+
+
 volumes:
+  customer-support-db-data:
   order-processing-db-data:
