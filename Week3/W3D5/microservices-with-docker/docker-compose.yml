@@ -8,6 +8,23 @@ networks:
 
 services:
 
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    volumes:
+      - ./frontend:/app:delegated
+      - /app/node_modules
+    ports:
+      - ${FRONTEND_PORT}:3000
+    environment:
+      - REACT_APP_CATALOG_MANAGEMENT_BASE_URL=http://localhost:${BACKEND_CATALOG_MANAGEMENT_PORT}
+      - REACT_APP_CUSTOMER_SUPPORT_BASE_URL=http://localhost:${BACKEND_CUSTOMER_SUPPORT_PORT}
+    stdin_open: true
+    depends_on:
+      - catalog-management
+      - customer-support
+
   catalog-management:
     build:
       context: ./backend/catalog-management
