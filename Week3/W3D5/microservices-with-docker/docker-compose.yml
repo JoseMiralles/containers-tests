@@ -1,5 +1,11 @@
 version: "3.8"
 
+networks:
+  customer-support:
+    driver: bridge
+  order-processing:
+    driver: bridge
+
 services:
 
   catalog-management:
@@ -20,6 +26,8 @@ services:
       - POSTGRES_DB=${BACKEND_ORDER_PROCESSING_DB_DATABASE}
     volumes:
       - order-processing-db-data:/var/lib/postgresql/data
+    networks:
+      order-processing:
 
   order-processing:
     build:
@@ -37,6 +45,10 @@ services:
     depends_on:
       - order-processing-db
     command: ./wait-for order-processing-db:5432 -- npm run db-migrate-seed
+    # order-processing can access the default network, and the network to it's DB.
+    networks:
+      default:
+      order-processing:
     # ports:
     #   - ${BACKEND_ORDER_PROCESSING_PORT}:${BACKEND_ORDER_PROCESSING_PORT}
 
