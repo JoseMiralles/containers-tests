@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    volumes:
+      - ./frontend:/app:delegated
+      - /app/node_modules
+    ports:
+      - ${FRONTEND_PORT}:3000
+    environment:
+      - REACT_APP_API_BASE_URL=http://localhost:${API_PORT}   # Example API variable
+    stdin_open: true
+    # depends_on:
+      # - main-api    # Add dependency for a container running the main-api image which should be defined in this file as well.
+    
