@@ -1,4 +1,11 @@
-version: "3"
+version: "3.8"
+
+networks:
+  api-network:
+    driver: bridge
+
+volumes:
+  api-db-data:
 
 services:
 
@@ -14,6 +21,37 @@ services:
     environment:
       - REACT_APP_API_BASE_URL=http://localhost:${API_PORT}   # Example API variable
     stdin_open: true
-    # depends_on:
-      # - main-api    # Add dependency for a container running the main-api image which should be defined in this file as well.
-    
+    depends_on:
+      - api    # Add dependency for a container running the api image defined below.
+  
+  api:
+    build:
+      context: ./backend
+      target: dev
+    volumes:
+      - ./backend:/usr/src/app:delegated
+    ports:
+      - ${API_PORT}:${API_PORT}
+    depends_on:
+      - api-db
+    networks:
+      default:
+      api-network:
+    environment:
+      - FLASK_RUN_PORT=${API_PORT}
+      - DB_USERNAME=${API_DB_USERNAME}
+      - DB_PASSWORD=${API_DB_PASSWORD}
+      - DB_DATABASE=${API_DB_DATABASE}
+      - DB_HOST=api-db
+    # command: ./wait-for api-db:5432 -- npm run db-migrate-seed  # TODO: Add example seed
+
+  api-db:
+    image: postgres:12.3
+    environment:
+      - POSTGRES_USER=${API_DB_USERNAME}
+      - POSTGRES_PASSWORD=${API_DB_PASSWORD}
+      - POSTGRES_DB=${API_DB_DATABASE}
+    volumes:
+      - api-db-data:/var/lib/postgresql/data
+    networks:
+      api-network:
