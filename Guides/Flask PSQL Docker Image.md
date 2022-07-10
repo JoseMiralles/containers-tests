@@ -16,4 +16,8 @@ Include the database and the network to limit access to the database.
 - Add [wait-for file](React_Flask_PSQL_Example/backend/wait-for). This is great for when it is necessary to wait for another container to be created before running a command.
 - Create [requirements.txt](React_Flask_PSQL_Example/backend/requirements.txt) with all of the pip packages necessary.
 
-# 4. Add app.py
+# 4. Add [app.py](React_Flask_PSQL_Example/backend/app.py)
+
+# 5. Follow along the next guide:
+
+- [Flask With Postgresql, SQLAlchemy ORM, and Alembic migrations.](Flask-Docker-PSQL-SQLAlchemy-Alembic.md)
