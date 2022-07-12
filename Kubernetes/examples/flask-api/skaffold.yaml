@@ -1,0 +1,15 @@
+apiVersion: skaffold/v2beta29
+kind: Config
+metadata:
+  name: flask-api
+build:
+  artifacts:
+  - image: flask-api
+    context: .
+    docker:
+      dockerfile: Dockerfile
+
+deploy:
+  kubectl:
+    manifests:
+    - deployment.yml
