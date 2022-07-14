@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-api
+spec:
+  selector:
+    matchLabels:
+      app: flask-api
+  template:
+    metadata:
+      labels:
+        app: flask-api
+    spec:
+      containers:
+      - name: flask-api
+        image: flask-api
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: db-name
+
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: psql-usr
+
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: psql-pass
+
+        - name: DB_URL
+          # value: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_DB_SERVICE_HOST):$(POSTGRES_DB_SERVICE_PORT)/$(POSTGRES_DB)"
+          value: "postgresql://postgres:$(POSTGRES_PASSWORD)@postgres-db:$(POSTGRES_DB_SERVICE_PORT)/$(POSTGRES_DB)"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-api
+spec:
+  type: LoadBalancer
+  selector:
+    app: flask-api
+  ports:
+  - port: 5000
+    targetPort: 5000
+    nodePort: 30000
+

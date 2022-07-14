@@ -1,0 +1,14 @@
+# This is only used to do thinkgs like generating migrations, etc..
+
+version: "3.8"
+
+services:
+  
+  api:
+    build:
+      context: ./flask-api
+      target: dev
+    volumes:
+      - ./flask-api:/usr/src/app:rw
+    ports:
+      - 5000:5000

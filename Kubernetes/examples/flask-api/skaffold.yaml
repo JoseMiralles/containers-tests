@@ -1,15 +1,23 @@
 apiVersion: skaffold/v2beta29
 kind: Config
 metadata:
-  name: flask-api
+  name: flask-postgres-deployment
 build:
   artifacts:
   - image: flask-api
-    context: .
+    context: ./flask-api
     docker:
       dockerfile: Dockerfile
+    sync:
+      manual:
+        - src: "flask-apy/"
+          dest: .
+
 
 deploy:
   kubectl:
     manifests:
-    - deployment.yml
+    - configMap.yml
+    - secrets.yml
+    - flask-api/deployment.yml
+    - postgres-k8s.yml
