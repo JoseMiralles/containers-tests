@@ -6,12 +6,13 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
+ENV DB_URL=
 ENV FLASK_APP=app.py
 
 FROM base as dev
 ENV FLASK_ENV=development
 RUN echo "DIR:" && ls
 RUN touch test.txt
-# RUN flask db upgrade
+RUN flask db upgrade
 CMD flask run --host=0.0.0.0
 # CMD ["sleep", "20000"]  # Sleep for a long time to keep container awake.

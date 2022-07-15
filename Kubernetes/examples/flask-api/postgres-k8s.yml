@@ -27,11 +27,11 @@ spec:
               name: app-config
               key: db-name
 
-        # - name: POSTGRES_USER
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: app-secrets
-        #       key: psql-usr
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: psql-usr
 
         - name: POSTGRES_PASSWORD
           valueFrom:

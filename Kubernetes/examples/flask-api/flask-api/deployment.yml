@@ -40,8 +40,8 @@ spec:
               key: psql-pass
 
         - name: DB_URL
-          # value: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_DB_SERVICE_HOST):$(POSTGRES_DB_SERVICE_PORT)/$(POSTGRES_DB)"
-          value: "postgresql://postgres:$(POSTGRES_PASSWORD)@postgres-db:$(POSTGRES_DB_SERVICE_PORT)/$(POSTGRES_DB)"
+          value: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_DB_SERVICE_HOST):$(POSTGRES_DB_SERVICE_PORT)/$(POSTGRES_DB)"
+          # value: "postgresql://postgres:$(POSTGRES_PASSWORD)@postgres-db:$(POSTGRES_DB_SERVICE_PORT)/$(POSTGRES_DB)"
 
 ---
 
