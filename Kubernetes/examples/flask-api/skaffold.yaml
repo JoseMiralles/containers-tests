@@ -19,5 +19,5 @@ deploy:
     manifests:
     - configMap.yml
     - secrets.yml
-    - flask-api/deployment.yml
     - postgres-k8s.yml
+    - flask-api/deployment.yml

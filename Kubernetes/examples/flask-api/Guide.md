@@ -18,5 +18,18 @@ Might be better to `skaffold run` instead of `skaffold dev` for this process.
 3. Create migration `flask db migrate -m "create owners table`
 4. In a new terminal copy folder from pod to local file system: `kubectl cp <podname>:/usr/src/app/migrations ./migrations-new`
 5. If migration seems correct, remove the existing migrations folder and rename `migrations-new` to `migrations`
-6. Apply migration in the Dockerfile `flask db upgrade`
+6. Apply migration by running `flask db upgrade` from a flask pod.
 
+### Using psql on a postgres:alpine pod
+
+1. Get a pod name using `kubectl get pod`
+2. Start terminal on pod `kubectl exec -it <pod-name> /bin/sh`
+3. Start psql `psql -U <postgres user> <database name>`
+
+<br>
+
+# 2. Add the app logic
+
+1. Create the models, and migrate.
+2. Create the marshmellow schemas
+3. Create the api endpoints
