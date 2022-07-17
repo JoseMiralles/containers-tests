@@ -10,7 +10,7 @@ build:
       dockerfile: Dockerfile
     sync:
       manual:
-        - src: "flask-apy/"
+        - src: "flask-api/"
           dest: .
 
 

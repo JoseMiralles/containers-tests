@@ -1,0 +1,16 @@
+apiVersion: skaffold/v2beta29
+kind: Config
+metadata:
+  name: graphql-express
+
+build:
+  artifacts:
+    - image: graphql-express
+      context: .
+      docker:
+        dockerfile: Dockerfile
+        
+deploy:
+  kubectl:
+    manifests:
+      - "graphql-k8s.yml"

@@ -1,4 +1,4 @@
-FROM python:3.7.0-alpine3.8 as base
+FROM python:3.10.5-alpine3.16 as base
 
 RUN apk update
 RUN apk add postgresql-dev gcc python3-dev musl-dev build-base
