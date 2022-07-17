@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY . .
 # ENV PATH /app/node_modules/.bin:$PATH
-EXPOSE 8080
+EXPOSE 5000
 
 
 FROM base AS dev
