@@ -1,4 +1,4 @@
-import {GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema} from "graphql";
+import {GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLNonNull} from "graphql";
 
 const users = [
     {id: "12312fawfwa", name: "Jose Miralles", favoriteNumber: 3},
@@ -9,6 +9,9 @@ const mounts = [
     {id: "awfewfa", userId: "12312fawfwa", name: "Odie"},
     {id: "fwefwafwafwe", userId: "afefaw23f", name: "Honda Civic"},
 ]
+
+
+// OBJECTS
 
 const MountType = new GraphQLObjectType({
     name: "MountType",
@@ -48,6 +51,32 @@ const RootQuery = new GraphQLObjectType({
     }
 });
 
-const schema = new GraphQLSchema({ query: RootQuery });
 
-export default schema;
+// MUTATIONS
+
+const mutation = new GraphQLObjectType({
+    name: "Mutation",
+    fields: {
+        newUser: {
+            type: UserType,
+            args: {
+                name: { type: new GraphQLNonNull(GraphQLString) },
+                favoriteNumber: { type: new GraphQLNonNull(GraphQLInt) }
+            },
+            resolve(parentValue, { name, favoriteNumber }) {
+                const newUser = {
+                    id: (users.length * 10).toString(),
+                    name,
+                    favoriteNumber
+                };
+                users.push(newUser);
+                return newUser;
+            }
+        }
+    }
+});
+
+export const schema = new GraphQLSchema({
+    query: RootQuery,
+    mutation
+});
