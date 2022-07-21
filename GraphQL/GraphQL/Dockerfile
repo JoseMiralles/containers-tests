@@ -7,7 +7,7 @@ EXPOSE 5000
 
 
 FROM base AS dev
-RUN npm ci --only=development
+RUN npm ci --only=null
 RUN npm run tsc
 CMD ["node", "dist/app.js"]
 

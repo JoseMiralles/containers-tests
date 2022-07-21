@@ -20,6 +20,24 @@ spec:
             cpu: "500m"
         ports:
         - containerPort: 5000
+        env:
+          - name: MONGO_INITDB_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: configmap-file
+                key: mongo-db-name
+          - name: MONGO_INITDB_ROOT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: secrets-file
+                key: mongo_db_user
+                optional: false
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secrets-file
+                key: mongo_db_pass
+                optional: false
 
 ---
 

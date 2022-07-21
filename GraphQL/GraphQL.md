@@ -180,3 +180,55 @@ In GraphQL, there are two different kinds of types.
 1. Scalar types represent concrete units of data. The GraphQL spec has five predefined scalars: as String, Int, Float, Boolean, and ID.
 
 2. Object types have fields that express the properties of that type and are composable. Examples of object types are a User or Post, and all the resources your project may have.
+
+<br>
+
+# Circular References
+
+This is when one type refers to another type which in turn refers back to the first type. This would be an issue since one type will be undeclared when the other is evaluated.
+
+To fix this, assign `fields` to an arrow function.
+
+```
+const User = new GraphQLObjectType({
+  name: 'User',
+  fields: () => ({      // <<<<<<<<<<<<<<<<<<<<<
+    id   : { type: GraphQLString },
+    email: { type: GraphQLString },
+    items: {
+      type: new GraphQLList(Item),
+      resolve: () => { /* resolve function to get user's items */ }
+    },
+  })
+})
+const Item = new GraphQLObjectType({
+  name: "Item",
+  fields: () => ({      // <<<<<<<<<<<<<<<<<<<<<
+    id:        { type: GraphQLString },
+    name:      { type: GraphQLString },
+    user: {
+      type: User,
+      resolve: () => { /* resolve function to get user of item */ }
+    },
+  })
+})
+```
+
+<br>
+
+# Introspection
+
+GraphQL allows clients to ask a server for information about its schema. GraphQL calls this introspection.
+
+### __schema query, tells the client what it can fetch.
+```
+query {
+  __schema {
+    types {
+      name
+    }
+  }
+}
+```
+
+

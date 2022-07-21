@@ -5,8 +5,10 @@ metadata:
 
 build:
   artifacts:
+    # Define images from Dockerfiles here,
+    # Deployments will then be able to use them.
     - image: graphql-express
-      context: .
+      context: ./GraphQL
       docker:
         dockerfile: Dockerfile
         
@@ -14,4 +16,7 @@ deploy:
   kubectl:
     manifests:
       # SYNC:/app:/src -n graphql-express
-      - "graphql-k8s.yml"
+      - "./secrets.yml"
+      - "./configMap.yml"
+      - "./MongoDB/mongo-k8s.yml"
+      - "./GraphQL/graphql-k8s.yml"
