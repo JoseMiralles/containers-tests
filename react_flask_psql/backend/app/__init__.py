@@ -4,4 +4,5 @@ from app.config import app
 
 @app.route("/")
 def hello_world():
-    return User(name="Jose").name
+    from app.config import connection_string
+    return connection_string

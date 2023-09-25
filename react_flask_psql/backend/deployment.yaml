@@ -20,6 +20,17 @@ spec:
             cpu: "500m"
         ports:
         - containerPort: 5000
+        env:
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-configmap
+                key: POSTGRES_DB
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret-config
+                key: password
 
 ---
 
@@ -33,5 +44,5 @@ spec:
   ports:
   - port: 6000
     targetPort: 5000
-    type: LoadBalancer
+    # type: LoadBalancer
 

@@ -4,6 +4,7 @@ metadata:
   name: todo-flask-react
 build:
   artifacts:
+    # Make the backend/Dockerfile image available.
     - image: flask-k8s
       context: backend
       docker:
@@ -11,3 +12,5 @@ build:
 manifests:
   rawYaml:
     - backend/deployment.yaml
+    - db/configMap.yaml
+    - db/deployment.yaml

@@ -13,6 +13,12 @@ src: https://skaffold.dev/docs/quickstart/
 
 <br>
 
+# Setting DB password secret
+
+1. Create psql_secret.yml
+2. Base 64 encode the secret and paste it. NOTE: Make sure that there isnt an extra space after the secret (\n).
+3. `kubectl apply -f db/psql_secret.yml`
+
 # Creating and applying migrations
 
 This step is better performed using venv.
