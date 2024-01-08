@@ -38,7 +38,7 @@ spec:
           - name: PGDATA
             value: /var/lib/postgresql/data/pgdata
         volumeMounts:
-          - mountPath: /var/lib/postgresql/data
+          - mountPath: /var/lib/postgresql/data/pgdata
             name: postgres-pv-storage
 
 ---
@@ -60,7 +60,7 @@ spec:
     - hard
     - nfsvers=4.1
   nfs:
-    path: /tmp
+    path: /var/lib/postgresql/data/pgdata
     server: 172.17.0.2
 
 ---

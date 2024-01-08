@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: idp
+spec:
+  selector:
+    matchLabels:
+      app: idp
+  template:
+    metadata:
+      labels:
+        app: idp
+    spec:
+      containers:
+      - name: idp
+        image: registry.supertokens.io/supertokens/supertokens-postgresql:7.0
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3567
+
+        env:
+        - name: POSTGRESQL_CONNECTION_URI
+          value: "postgresql://admin:psltest@postgres:5432/postgresdb"
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_DB
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: idp
+spec:
+  selector:
+    app: idp
+  ports:
+  - protocol: TCP
+    port: 3567
+    targetPort: 3567
+  type: LoadBalancer
+

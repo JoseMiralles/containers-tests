@@ -11,6 +11,6 @@ build:
         dockerfile: Dockerfile
 manifests:
   rawYaml:
-    - backend/deployment.yaml
+    # - backend/deployment.yaml
     - db/configMap.yaml
     - db/deployment.yaml

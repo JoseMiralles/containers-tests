@@ -1,0 +1,8 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+metadata:
+  name: flask-mongo
+manifests:
+  rawYaml:
+    # - db/deployment.yaml
+    - frontend/deployment.yaml
