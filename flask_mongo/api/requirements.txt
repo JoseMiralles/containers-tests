@@ -1,1 +1,3 @@
 flask
+supertokens-python
+flask-cors

@@ -53,5 +53,6 @@ spec:
   - protocol: TCP
     port: 3567
     targetPort: 3567
+    nodePort: 3567
   type: LoadBalancer
 

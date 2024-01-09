@@ -22,7 +22,7 @@ manifests:
     - identity_provider/supert-tokens-k8s.yaml
 
     # API
-    # - api/api-k8s.yaml
+    - api/api-k8s.yaml
     
     # FRONTEND
     # - frontend/frontend-k8s.yaml
