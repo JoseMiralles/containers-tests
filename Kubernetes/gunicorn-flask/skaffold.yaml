@@ -1,0 +1,12 @@
+apiVersion: skaffold/v4beta8
+kind: Config
+metadata:
+  name: gunicorn-flask
+build:
+  artifacts:
+    - image: api
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - k8s.yaml
